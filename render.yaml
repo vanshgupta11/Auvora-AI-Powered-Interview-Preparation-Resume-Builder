@@ -11,11 +11,10 @@ services:
         generateValue: true # Generates a secure random JWT secret automatically
       - key: GOOGLE_GENAI_API_KEY
         sync: false # You will be prompted to enter your Gemini API key in the Render UI
+      - key: NODE_ENV
+        value: production
       - key: FRONTEND_URL
-        fromService:
-          name: auvora-frontend
-          type: web
-          property: url
+        value: https://auvora-frontend.onrender.com
 
   # Frontend Static Site
   - type: web
@@ -25,7 +24,4 @@ services:
     staticPublishPath: ./Frontend/dist
     envVars:
       - key: VITE_API_URL
-        fromService:
-          name: auvora-backend
-          type: web
-          property: url
+        value: https://auvora-backend.onrender.com
