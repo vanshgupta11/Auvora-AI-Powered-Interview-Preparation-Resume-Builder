@@ -1,0 +1,31 @@
+services:
+  # Backend Web Service (using Docker for Puppeteer)
+  - type: web
+    name: auvora-backend
+    runtime: docker
+    dockerfilePath: ./Backend/Dockerfile
+    envVars:
+      - key: MONGO_URI
+        sync: false # You will be prompted to enter your MongoDB Atlas URI in the Render UI
+      - key: JWT_SECRET
+        generateValue: true # Generates a secure random JWT secret automatically
+      - key: GOOGLE_GENAI_API_KEY
+        sync: false # You will be prompted to enter your Gemini API key in the Render UI
+      - key: FRONTEND_URL
+        fromService:
+          name: auvora-frontend
+          type: web
+          property: url
+
+  # Frontend Static Site
+  - type: web
+    name: auvora-frontend
+    runtime: static
+    buildCommand: cd Frontend && npm install && npm run build
+    staticPublishPath: ./Frontend/dist
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          name: auvora-backend
+          type: web
+          property: url
