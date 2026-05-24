@@ -1,5 +1,5 @@
 # Auvora — AI-Powered Interview Preparation & Resume Builder
-
+live link - https://auvora-ai.vercel.app/
 Auvora is a full-stack web application designed to empower job seekers using the power of **Google Gemini AI**. It provides a comprehensive suite for interview preparation and resume optimization, helping candidates bridge skill gaps and land their dream jobs.
 
 ---
