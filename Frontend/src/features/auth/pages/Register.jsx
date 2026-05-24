@@ -9,11 +9,17 @@ function Register() {
     const [username,setUsername] = useState("");
     const [email,setEmail] = useState("")
     const [password,setPassword] = useState("")
+    const [error, setError] = useState("")
 
      const handleSubmit  = async (e)=>{
-            e.preventDefault()
-             await handleRegister({username,email,password})
-           navigate("/")
+        e.preventDefault()
+        setError("")
+        try {
+            await handleRegister({username,email,password})
+            navigate("/")
+        } catch (err) {
+            setError(err.response?.data?.message || "Registration failed. Please check your details and try again.")
+        }
     }
     if(loading){
         return(
@@ -44,6 +50,14 @@ function Register() {
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
             <div className="bg-[#0A0A0A] py-8 px-4 sm:rounded-xl sm:px-10 border border-white/[0.08]">
                 <form className="space-y-6" onSubmit={handleSubmit}>
+                    {error && (
+                        <div className="p-3 bg-red-950/40 border border-red-500/30 rounded-lg text-red-200 text-sm flex items-center gap-2">
+                            <svg className="h-4 w-4 text-red-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                            </svg>
+                            <span>{error}</span>
+                        </div>
+                    )}
                     <div>
                         <label htmlFor="username" className="block text-sm font-medium text-zinc-300">Username</label>
                         <div className="mt-2">
