@@ -7,8 +7,9 @@ connectToDb()
 
 
 
-app.listen(3000, () => {
-    console.log("Server is started at port no.3000");
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server is started at port no. ${PORT}`);
 })
 
 
