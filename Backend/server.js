@@ -1,4 +1,14 @@
 require("dotenv").config()
+
+// Global error handlers — log everything so Render shows useful crash info
+process.on('uncaughtException', (err) => {
+    console.error('[uncaughtException]', err);
+    process.exit(1);
+});
+process.on('unhandledRejection', (reason) => {
+    console.error('[unhandledRejection]', reason);
+    process.exit(1);
+});
 const app = require('./src/app')
 const connectToDb = require('./src/config/database')
 
