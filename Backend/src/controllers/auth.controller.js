@@ -10,6 +10,7 @@ async function registerUserController(req , res){
     const {username,email,password} = req.body
 
     if(!username || !email || !password){
+        console.warn("[Auth Register] 400 Bad Request: Missing fields:", { username, email, password: !!password });
         return res.status(400).json({
             message:"Please provide username , email , password"
         })
@@ -20,6 +21,7 @@ async function registerUserController(req , res){
     })
 
     if(isUserAlredyExists){
+        console.warn("[Auth Register] 400 Bad Request: User already exists:", { username, email });
         return res.status(400).json({
             message:"Account already exists with this eamil address or username"
         })
@@ -61,6 +63,7 @@ async function loginUserController(req,res){
     const user = await userModel.findOne({email})
 
     if(!user){
+        console.warn("[Auth Login] 400 Bad Request: User not found for email:", email);
         return res.status(400).json({
             message:"Invalid Email or Password"
         })
@@ -69,6 +72,7 @@ async function loginUserController(req,res){
     const isPasswordValid = await bcrypt.compare(password,user.password)
 
     if(!isPasswordValid){
+         console.warn("[Auth Login] 400 Bad Request: Invalid password for email:", email);
          return res.status(400).json({
             message:"Invalid Email or Password"
         })

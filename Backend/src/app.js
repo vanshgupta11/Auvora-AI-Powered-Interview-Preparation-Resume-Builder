@@ -37,6 +37,12 @@ app.use(cors({
 app.use(express.json())
 app.use(cookieParser())
 
+// Request debugging logger
+app.use((req, res, next) => {
+    console.log(`[HTTP] ${req.method} ${req.url} - Headers:`, { origin: req.headers.origin }, `- Body:`, req.body);
+    next();
+});
+
 // Root health-check endpoint
 app.get("/", (req, res) => {
     res.json({ status: "ok", message: "Auvora Backend API is running successfully." });
